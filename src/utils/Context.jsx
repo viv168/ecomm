@@ -1,4 +1,4 @@
- import axios from './Axios';
+// import axios from './Axios';
 import React, { useState, createContext, useEffect } from 'react';
 
 // Create a context for the product

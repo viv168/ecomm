@@ -1,18 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
- import axios from '../utils/Axios';
+// import axios from '../utils/Axios';
 import Loading from './Loading';
 import { ProductContext } from '../utils/Context';
 
-
-
 const Details = () => {
+  const navigate = useNavigate();
   const [products, setproducts] = useContext(ProductContext);
   const [product, setproduct] = useState(null);
-  const{id} = useParams();
-  
- /* const getsingleproduct = async () => {
+  const { id } = useParams();
+
+  /* const getsingleproduct = async () => {
     try {
       const {data} = await axios.get(`/products/${id}`);
       setproduct(data);
@@ -29,13 +28,18 @@ const Details = () => {
 
    }, []); */
 
-   useEffect(() => {
-    if(!product) {
-       setproduct(products.filter((p) => p.id  == id)[0]);
+  useEffect(() => {
+    if (!product) {
+      setproduct(products.filter((p) => p.id == id)[0]);
     }
   }, []);
 
-
+  const ProductDeleteHandler = (id) => {
+    const FilteredProducts = products.filter((p) => p.id !== id);
+    setproducts(FilteredProducts);
+    localStorage.setItem('products', JSON.stringify(FilteredProducts));
+    navigate('/');
+  };
   return product ? (
     <div className="w-[70%] flex h-full justify-between items-center m-auto p-[10%]">
       <img
@@ -44,19 +48,22 @@ const Details = () => {
         alt=""
       />
       <div className="content w-[50%]">
-        <h1 className="text-4xl">
-          {product.title}
-        </h1>
+        <h1 className="text-4xl">{product.title}</h1>
         <h3 className="text-zinc-400 my-5"> {product.category}</h3>
         <h2 className="text-red-300 mb-3"> ${product.price}</h2>
-        <p className='mb-[5%]'>
-          {product.description}
-        </p>
-        <Link className=" mr-5 py-2 px-5 border rounded border-blue-200 text-blue-300">Edit</Link>
-        <Link className="py-2 px-5 border rounded border-red-200 text-red-300">Delete</Link>
+        <p className="mb-[5%]">{product.description}</p>
+        <Link className=" mr-5 py-2 px-5 border rounded border-blue-200 text-blue-300">
+          Edit
+        </Link>
+        <button
+          onClick={() => ProductDeleteHandler(product.id)}
+          className="py-2 px-5 border rounded border-red-200 text-red-300"
+        >
+          Delete
+        </button>
       </div>
-    </div> 
-    ) : ( 
+    </div>
+  ) : (
     <Loading />
   );
 };
