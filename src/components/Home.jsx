@@ -1,32 +1,34 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Nav from './Nav';
 import { Link, useLocation } from 'react-router-dom';
-import { productContext } from '../utils/Context';
+import { ProductContext } from '../utils/Context';
 import Loading from './Loading';
-import axios from '../utils/Axios';
+ import axios from '../utils/Axios';
 
 const Home = () => {
-  const [products] = useContext(productContext);
+  const [products] = useContext(ProductContext);
   const { search } = useLocation();
   const category = decodeURIComponent(search.split('=')[1]);
 
-  const [filteredProducts, setFilteredProducts] = useState(null);
+  const [filteredProducts, setfilteredProducts] = useState(null);
 
-  const getProductsCategory = async () => {
+  /*const getProductsCategory = async () => {
     try {
       const { data } = await axios.get(`/products/category/${category}`);
-      setFilteredProducts(data);
+      setfilteredProducts(data);
     } catch (error) {
       console.error(error);
     }
-  };
+  }; */
 
   useEffect(() => {
-
-    if (!filteredProducts || category == "undefined") setFilteredProducts(products);
-    if (category != "undefined") getProductsCategory();
-    
-  }, [category,products]);
+    if (!filteredProducts || category == 'undefined')
+      setfilteredProducts(products);
+    if (category != 'undefined') {
+      // getProductsCategory();
+      setfilteredProducts(products.filter((p) => p.category == category));
+    }
+  }, [category, products]);
 
   return products ? (
     <>

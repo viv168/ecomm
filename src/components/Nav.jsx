@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { productContext } from '../utils/Context';
+import { ProductContext } from '../utils/Context';
 import { Link } from 'react-router-dom';
 
 
 const Nav = () => {
-  const [products] = useContext(productContext);
+  const [products] = useContext(ProductContext);
 
   let distict_category =
     products && products.reduce((acc, cv) => [...acc, cv.category], []);

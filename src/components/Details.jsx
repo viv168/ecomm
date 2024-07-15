@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import axios from '../utils/Axios';
+ import axios from '../utils/Axios';
 import Loading from './Loading';
+import { ProductContext } from '../utils/Context';
+
 
 
 const Details = () => {
+  const [products, setproducts] = useContext(ProductContext);
   const [product, setproduct] = useState(null);
   const{id} = useParams();
   
-  const getsingleproduct = async () => {
+ /* const getsingleproduct = async () => {
     try {
       const {data} = await axios.get(`/products/${id}`);
       setproduct(data);
@@ -24,9 +27,13 @@ const Details = () => {
     getsingleproduct();
     
 
+   }, []); */
+
+   useEffect(() => {
+    if(!product) {
+       setproduct(products.filter((p) => p.id  == id)[0]);
+    }
   }, []);
-
-
 
 
   return product ? (

@@ -1,17 +1,19 @@
-import axios from './Axios';
+ import axios from './Axios';
 import React, { useState, createContext, useEffect } from 'react';
 
 // Create a context for the product
-export const productContext = createContext();
+export const ProductContext = createContext();
 
 const Context = ({ children }) => {
   // Destructure the children prop from props
-  const [products, setProducts] = useState(null);
+  const [products, setproducts] = useState(
+    JSON.parse(localStorage.getItem('products')) || null
+    );
 
-  const getProducts = async () => {
+  /*const getProducts = async () => {
     try {
       const { data } = await axios('/products');
-      setProducts(data);
+      setproducts(data);
     } catch (error) {
       console.error(error);
     }
@@ -19,11 +21,13 @@ const Context = ({ children }) => {
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, []); */
+
+
   return (
-    <productContext.Provider value={[products, setProducts]}>
+    <ProductContext.Provider value={[products, setproducts]}>
       {children}
-    </productContext.Provider>
+    </ProductContext.Provider>
   );
 };
 
