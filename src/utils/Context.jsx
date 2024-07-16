@@ -1,5 +1,5 @@
 // import axios from './Axios';
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext,  } from 'react';
 
 // Create a context for the product
 export const ProductContext = createContext();
